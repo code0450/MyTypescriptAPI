@@ -1,0 +1,88 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+<head>
+    <style>
+        #replaceForm {
+            display: none;
+        }
+        #deleteForm {
+            display: none;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Leaver</title>
+</head>
+<body>
+    <h2>Leave your favourite quote</h2>
+    <form action="/quotes" method="POST">
+        <input type="text" placeholder="name" name="name">
+        <input type="text" placeholder="quote" name="quote">
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Quotes</h2>
+    <ul class="quotes">
+        <% for(var i = 0; i < quotes.length; i++) {%>
+            <li class="quote">
+                <span><%= quotes[i].name %>::</span>
+                <span><%= quotes[i].quote %></span>
+            </li>
+        <% } %>
+    </ul>
+    <h3>You can also change the quote</h3>
+    <button id="buttonReplace">Change</button>
+    <form id="replaceForm">
+        <input id="namePut" type="text" placeholder="who?**" name="name">
+        <input id="quotePut" type="text" placeholder="new quote" name="quote">
+        <button type="button" id="updateButton">Submit</button>
+    </form>
+    <h3>You can delete one if you want</h3>
+    <button id="buttonDelete">Delete</button>
+    <form id="deleteForm">
+        <input id="nameDelete" type="text" placeholder="who?**" name="name">
+        <input id="quoteDelete" type="text" placeholder="which quote?**" name="quote">
+        <button type="button" id="deleteButton">Submit</button>
+    </form>
+    <script>
+        const buttonReplace = document.getElementById("buttonReplace");
+        const replaceForm = document.getElementById("replaceForm");
+        buttonReplace.addEventListener('click', () => {
+            replaceForm.style.display = 'flex';
+        });
+        const buttonDelete = document.getElementById("buttonDelete");
+        const DeleteForm = document.getElementById("deleteForm");
+        buttonDelete.addEventListener('click', () => {
+            deleteForm.style.display = 'flex';
+        });
+        const updateButton = document.getElementById("updateButton");
+        updateButton.addEventListener('click', () => {
+            const namePut = document.getElementById("namePut").value;
+            const quotePut = document.getElementById("quotePut").value;
+            let data = { name: namePut, quote: quotePut };
+            fetch('/quotes', {
+                method: 'put',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if(res.ok) document.location.reload();
+            })
+        })
+        const deleteButton = document.getElementById("deleteButton");
+        deleteButton.addEventListener('click', () => {
+            const nameDelete = document.getElementById("nameDelete").value;
+            const quoteDelete = document.getElementById("quoteDelete").value;
+            let data = { name: nameDelete, quote: quoteDelete };
+            fetch('/quotes', {
+                method: 'delete',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (res.ok) document.location.reload();
+            })
+        })
+    </script>
+</body>
+</html>
