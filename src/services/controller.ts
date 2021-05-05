@@ -1,5 +1,5 @@
 import express from 'express';
-import Model from '../models/quoteModel';
+import Quote from '../models/quoteModel';
 
 export default class Controller {
     private Quote: any;
@@ -9,9 +9,8 @@ export default class Controller {
     public quotes_update: any;
     public quotes_delete: any;
 
-
-    constructor() {
-        this.Quote = new Model().model;
+    create = async () => {
+        this.Quote = Quote;
 
         this.quotes_create = (req: express.Request, res: express.Response) => {
             this.Quote.create({
@@ -51,6 +50,7 @@ export default class Controller {
                 if(err) throw err;
                 res.json('Success');
             });
-        }
+        };
+        return this;
     }
 }

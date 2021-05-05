@@ -5,7 +5,8 @@
   "main": "bin/index.js",
   "scripts": {
     "dev": "tsc -w & nodemon bin/index.js",
-    "start": "tsc & node bin/index.js"
+    "build": "rimraf bin && tsc",
+    "start": "node bin/index.js"
   },
   "author": "",
   "license": "ISC",
